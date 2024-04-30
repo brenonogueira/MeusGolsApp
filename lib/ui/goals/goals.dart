@@ -31,7 +31,7 @@ class _GoalsState extends State<Goals> {
                 children: [
                   ElevatedButton(
                     onPressed: _handleButtonPress,
-                    child: Text('Meu Botão'),
+                    child: Text('test'),
                   ),
                 ],
               )
@@ -42,6 +42,5 @@ class _GoalsState extends State<Goals> {
 }
 
 void _handleButtonPress() {
-  // Sua lógica aqui quando o botão é pressionado
   print('Botão pressionado!');
 }
