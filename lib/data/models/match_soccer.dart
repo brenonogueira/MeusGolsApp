@@ -1,23 +1,27 @@
 class MatchSoccer {
-  int amountGoals;
-  DateTime date;
+  String player_name;
+  int goals_amount;
+  String match_date;
 
   MatchSoccer({
-    required this.amountGoals,
-    required this.date,
+    required this.player_name,
+    required this.goals_amount,
+    required this.match_date
   });
 
   factory MatchSoccer.fromJson(Map<String, dynamic> json) {
     return MatchSoccer(
-      amountGoals: json['amount_goals'],
-      date: DateTime.parse(json['date']),
+      player_name: json['player_name'],
+      goals_amount: json['goals_amount'],
+      match_date: json['match_date']
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'amount_goals': amountGoals,
-      'date': date.toIso8601String(),
+      'player_name': player_name,
+      'goals_amount': goals_amount,
+      'match_date': match_date
     };
   }
 }

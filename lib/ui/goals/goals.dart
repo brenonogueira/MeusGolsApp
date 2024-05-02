@@ -8,6 +8,15 @@ class Goals extends StatefulWidget {
 }
 
 class _GoalsState extends State<Goals> {
+  
+ TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,15 +25,26 @@ class _GoalsState extends State<Goals> {
           appBar: AppBar(
             title: const Text('Meus gols'),
           ),
-          body: const Column(
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("10", style: TextStyle(
-                  fontSize: 100
-                ),)],
+                children: [
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: TextField(
+                      controller: _controller,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'goals',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  )
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
