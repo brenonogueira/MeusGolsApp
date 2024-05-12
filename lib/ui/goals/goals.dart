@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:meus_gols_app/ui/goals/components/match_history.dart';
+import 'package:meus_gols_app/ui/goals/components/total_goals.dart';
 
 class Goals extends StatefulWidget {
   const Goals({super.key});
@@ -25,36 +28,35 @@ class _GoalsState extends State<Goals> {
           appBar: AppBar(
             title: const Text('Meus gols'),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          body: const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: TextField(
-                      controller: _controller,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'goals',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  )
+                  TotalGoals(goals: 1),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: _handleButtonPress,
-                    child: Text('test'),
+                   Padding(
+                    padding: EdgeInsets.all(13.0),
+                    child: ElevatedButton(
+                      onPressed: _handleButtonPress,
+                      child: Text('Add match'),
+                    ),
+                  ),
+                   Padding(
+                    padding: EdgeInsets.all(13.0),
+                    child: ElevatedButton(
+                      onPressed: _handleButtonPress,
+                      child: Text('Matches'),
+                    ),
                   ),
                 ],
-              )
+              ),
             ],
           )),
     );
