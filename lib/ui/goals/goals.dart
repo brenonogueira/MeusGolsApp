@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:meus_gols_app/ui/goals/components/match_history.dart';
 import 'package:meus_gols_app/ui/goals/components/total_goals.dart';
 
 class Goals extends StatefulWidget {
@@ -12,7 +10,7 @@ class Goals extends StatefulWidget {
 
 class _GoalsState extends State<Goals> {
   
- TextEditingController _controller = TextEditingController();
+ final TextEditingController _controller = TextEditingController();
 
   @override
   void dispose() {
