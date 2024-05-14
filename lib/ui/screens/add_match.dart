@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meus_gols_app/data/interface/match_repository.dart';
+import 'package:meus_gols_app/data/models/match_soccer.dart';
+import 'package:meus_gols_app/data/usecases/match_use_case.dart';
+import 'package:meus_gols_app/infra/repository/match_repository_impl.dart';
 import 'package:meus_gols_app/ui/components/button_widget.dart';
 
 class AddMatch extends StatefulWidget {
@@ -14,9 +18,21 @@ class _AddMatchState extends State<AddMatch> {
   int goals = 0;
   String data_fut = '';
 
+	final MatchRepository _matchRepository = MatchRepositoryImpl();
+	late final MatchUseCase _matchUseCase;
+
 	TextEditingController _controller_fut_description = TextEditingController();
   TextEditingController _controller_goals = TextEditingController();
   TextEditingController _controller_data_fut = TextEditingController();
+
+	@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+		_matchUseCase = MatchUseCase(_matchRepository);
+  }	
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +93,17 @@ class _AddMatchState extends State<AddMatch> {
     );
   }
 
-	Widget buttonSubmit() => Builder(builder: (context) => ButtonWidget(text: "Add", onClicked: () {}));
+	Widget buttonSubmit() => Builder(builder: (context) => ButtonWidget(
+		text: "Add",
+		onClicked: () {
+				_matchUseCase.saveMatch(
+					MatchSoccer(
+						fut_description: _controller_fut_description.text, 
+						goals_amount: int.parse(_controller_goals.text), 
+						match_date: _controller_data_fut.text
+					)
+				).whenComplete(() => print("inseriu no banco"));
+	}));
 
 	Future<void> _selectDate() async {
 		DateTime? _picked = await showDatePicker(
