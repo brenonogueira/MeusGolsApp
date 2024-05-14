@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meus_gols_app/ui/goals/components/total_goals.dart';
+import 'package:go_router/go_router.dart';
+import 'package:meus_gols_app/ui/components/total_goals.dart';
 
 class Goals extends StatefulWidget {
   const Goals({super.key});
@@ -26,7 +27,7 @@ class _GoalsState extends State<Goals> {
           appBar: AppBar(
             title: const Text('Meus gols'),
           ),
-          body: const Column(
+          body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -42,14 +43,14 @@ class _GoalsState extends State<Goals> {
                    Padding(
                     padding: EdgeInsets.all(13.0),
                     child: ElevatedButton(
-                      onPressed: _handleButtonPress,
+                       onPressed: () => context.go('/add_match'),
                       child: Text('Add match'),
                     ),
                   ),
                    Padding(
                     padding: EdgeInsets.all(13.0),
                     child: ElevatedButton(
-                      onPressed: _handleButtonPress,
+                      onPressed: () => context.go('/matches'),
                       child: Text('Matches'),
                     ),
                   ),

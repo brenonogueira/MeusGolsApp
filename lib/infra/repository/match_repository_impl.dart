@@ -14,7 +14,7 @@ class MatchRepositoryImpl implements MatchRepository {
         await database.execute("""
         CREATE TABLE matches(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        player_name TEXT NOT NULL,
+        fut_description TEXT NOT NULL,
         goals_amount INTEGER NOT NULL,
         match_date TEXT NOT NULL,
         )
@@ -47,7 +47,7 @@ class MatchRepositoryImpl implements MatchRepository {
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return MatchSoccer(
-        player_name: maps[i]['player_name'],
+        fut_description: maps[i]['fut_description'],
         goals_amount: maps[i]['goals_amount'],
         match_date: maps[i]['match_date']
       );

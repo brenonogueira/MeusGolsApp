@@ -18,20 +18,14 @@ final List<int> colorCodes = <int>[600, 500, 100, 100];
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
 
-  return SizedBox(
-    width: screenWidth,
-    height: screenHeight * 0.6,
-    child: ListView.builder(
-      padding: const EdgeInsets.all(8),
-      itemCount: entries.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 50,
-          color: Colors.amber,
-          child: Center(child: Text('Entry ${entries[index]}')),
-        );
-      }
-    ),
-  );
+  return ListView.separated(
+    itemCount: entries.length,
+    separatorBuilder: (context, index) => Divider(),
+    itemBuilder: (BuildContext context, int index) {
+      return ListTile(
+        title: Text('Entry ${entries[index]}'),
+      );
+    }
+  ) ;
   }
 }
