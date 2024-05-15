@@ -22,6 +22,7 @@ class _GoalsState extends State<Goals> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: Scaffold(
           appBar: AppBar(
@@ -60,8 +61,4 @@ class _GoalsState extends State<Goals> {
           )),
     );
   }
-}
-
-void _handleButtonPress() {
-  print('Botão pressionado!');
 }

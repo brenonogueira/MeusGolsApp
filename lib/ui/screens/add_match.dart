@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/models/match_soccer.dart';
 import 'package:meus_gols_app/data/usecases/match_use_case.dart';
@@ -37,6 +38,7 @@ class _AddMatchState extends State<AddMatch> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(
@@ -102,7 +104,10 @@ class _AddMatchState extends State<AddMatch> {
 						goals_amount: int.parse(_controller_goals.text), 
 						match_date: _controller_data_fut.text
 					)
-				).whenComplete(() => print("inseriu no banco"));
+				).then((value) => {
+            showCustomSnackbar(context, 'Partida inserida com sucesso!'),
+            context.go('/matches')
+        });
 	}));
 
 	Future<void> _selectDate() async {
@@ -119,5 +124,15 @@ class _AddMatchState extends State<AddMatch> {
 		  });
 		}
 	}
+
+   void showCustomSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      backgroundColor: Colors.green,
+      content: Text(message),
+      duration: Duration(seconds: 3),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
 }
