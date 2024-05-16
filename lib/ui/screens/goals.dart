@@ -29,7 +29,6 @@ class _GoalsState extends State<Goals> {
 
   @override
   void dispose() {
-    
     _controller.dispose();
     super.dispose();
   }
@@ -49,6 +48,15 @@ class _GoalsState extends State<Goals> {
       home: Scaffold(
           appBar: AppBar(
             title: const Text('Meus gols'),
+            actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              // Chame a função desejada aqui
+              getGoalsCount();
+            },
+          ),
+        ],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
