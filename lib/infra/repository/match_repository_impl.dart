@@ -65,4 +65,20 @@ class MatchRepositoryImpl implements MatchRepository {
     await db
         .update('matches', match.toJson(), where: 'id = ?', whereArgs: [id]);
   }
+
+  //  Future<int?> countGoals() async {
+  //   final db = await initDB();
+  //   final count = Sqflite.firstIntValue(await db.rawQuery(
+  //       'SELECT COUNT(*) FROM matches WHERE goals_amount INTEGER'));
+  //   return count;
+  // }
+
+   @override
+     Future<int?> countGoals() async {
+    final db = await initDB();
+    final result = await db.rawQuery('SELECT SUM(goals_amount) FROM matches');
+    int? sum = Sqflite.firstIntValue(result);
+    print(sum);
+    return sum ?? 0; // Return 0 if there are no goals or an error occurs
+  }
 }

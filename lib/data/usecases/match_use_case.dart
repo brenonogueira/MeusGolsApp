@@ -15,4 +15,8 @@ class MatchUseCase {
       return await _matchRepository.findAll();     
    }
 
+   Future<int?> countGoals() async {
+      return await _matchRepository.countGoals();     
+   }
+
 }

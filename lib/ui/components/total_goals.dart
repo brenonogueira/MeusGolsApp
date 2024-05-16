@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TotalGoals extends StatefulWidget {
   const TotalGoals({super.key, required this.goals});
-  final int goals;
+  final int? goals;
 
   @override
   State<TotalGoals> createState() => _TotalGoalsState();
@@ -12,11 +12,11 @@ class TotalGoals extends StatefulWidget {
 class _TotalGoalsState extends State<TotalGoals> {
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       width: 300,
-      height: 160,
+      height: 200,
       child: Center(
-        child: Text("13 goals", style: TextStyle(fontSize: 40),)
+        child: Text('${widget.goals.toString()} gols', style: TextStyle(fontSize: 70),)
       ),
     );
   }

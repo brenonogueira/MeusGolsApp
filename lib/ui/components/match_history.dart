@@ -10,21 +10,27 @@ class MatchHistory extends StatefulWidget {
 }
 
 class _MatchHistoryState extends State<MatchHistory> {
-
   @override
   Widget build(BuildContext context) {
-  return ListView.builder(
-    itemCount: widget.matchesList.length,
-    itemBuilder: (BuildContext context, int index) {
-      return Card(
-        child: ListTile(
-          leading: const Icon(Icons.sports_soccer_sharp, size: 40),
-          title: Text(widget.matchesList[index].fut_description),
-          subtitle: Text(widget.matchesList[index].match_date),
-          trailing: Text(widget.matchesList[index].goals_amount.toString(), style: const TextStyle(fontSize: 40)),
-        ),
-      );
-    }
-  ) ;
+    return widget.matchesList.isNotEmpty
+        ? ListView.builder(
+            itemCount: widget.matchesList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: ListTile(
+                  leading: const Icon(Icons.sports_soccer_sharp, size: 40),
+                  title: Text(widget.matchesList[index].fut_description),
+                  subtitle: Text(widget.matchesList[index].match_date),
+                  trailing: Text(
+                      widget.matchesList[index].goals_amount.toString(),
+                      style: const TextStyle(fontSize: 40)),
+                ),
+              );
+            })
+        : const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [Center(child: Text("Nenhum jogo registrado!"))],
+          );
   }
 }
