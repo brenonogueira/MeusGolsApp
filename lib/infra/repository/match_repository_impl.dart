@@ -37,12 +37,6 @@ class MatchRepositoryImpl implements MatchRepository {
   }
 
   @override
-  Future<void> deleteMatchById(int id) {
-    // TODO: implement deleteMatchById
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<MatchSoccer>> findAll() async {
     // Get a reference to the database.
     final db = await initDB();
@@ -53,6 +47,7 @@ class MatchRepositoryImpl implements MatchRepository {
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return MatchSoccer(
+          id: maps[i]['id'],
           fut_description: maps[i]['fut_description'],
           goals_amount: maps[i]['goals_amount'],
           match_date: maps[i]['match_date']);
@@ -66,19 +61,24 @@ class MatchRepositoryImpl implements MatchRepository {
         .update('matches', match.toJson(), where: 'id = ?', whereArgs: [id]);
   }
 
-  //  Future<int?> countGoals() async {
-  //   final db = await initDB();
-  //   final count = Sqflite.firstIntValue(await db.rawQuery(
-  //       'SELECT COUNT(*) FROM matches WHERE goals_amount INTEGER'));
-  //   return count;
-  // }
-
    @override
      Future<int?> countGoals() async {
     final db = await initDB();
     final result = await db.rawQuery('SELECT SUM(goals_amount) FROM matches');
     int? sum = Sqflite.firstIntValue(result);
-    print(sum);
     return sum ?? 0; // Return 0 if there are no goals or an error occurs
   }
+
+  @override
+  Future<bool> deleteMatchById(int? id) async {
+     try {
+       final db = await initDB();
+       await db.delete('matches', where: 'id = ?', whereArgs: [id]);
+      return true;
+     } catch (e) {
+       print(e);
+       return false;
+     }
+  }
+  
 }

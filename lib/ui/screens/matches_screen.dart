@@ -38,7 +38,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
       theme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(title: Text("Histórico de jogos")),
-        body: MatchHistory(matchesList: matches),
+        body: MatchHistory(matchesList: matches.reversed.toList(), getAllMatchs: getAllHistory)
       ),
     );
   }
