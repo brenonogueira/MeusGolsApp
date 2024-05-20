@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:meus_gols_app/data/provider_service/match_provider.dart';
+import 'package:provider/provider.dart';
 
 class TotalGoals extends StatefulWidget {
   const TotalGoals({super.key, required this.goals});
@@ -16,7 +18,10 @@ class _TotalGoalsState extends State<TotalGoals> {
       width: 300,
       height: 200,
       child: Center(
-        child: Text('${widget.goals.toString()} gols', style: TextStyle(fontSize: 70),)
+        child: Text(
+          '${context.watch<MatchProvider>().goals} gols',
+           style: TextStyle(fontSize: 70)
+          )
       ),
     );
   }

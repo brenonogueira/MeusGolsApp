@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/models/match_soccer.dart';
+import 'package:meus_gols_app/data/provider_service/match_provider.dart';
 import 'package:meus_gols_app/data/usecases/match_use_case.dart';
 import 'package:meus_gols_app/infra/repository/match_repository_impl.dart';
 import 'package:meus_gols_app/ui/components/button_widget.dart';
+import 'package:provider/provider.dart';
 
 class AddMatch extends StatefulWidget {
   const AddMatch({super.key});
@@ -106,6 +108,7 @@ class _AddMatchState extends State<AddMatch> {
 					)
 				).then((value) => {
             showCustomSnackbar(context, 'Partida inserida com sucesso!'),
+            context.read<MatchProvider>().changeGoalsValue(),
             context.go('/matches')
         });
 	}));

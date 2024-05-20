@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/models/match_soccer.dart';
+import 'package:meus_gols_app/data/provider_service/match_provider.dart';
 import 'package:meus_gols_app/data/usecases/match_use_case.dart';
 import 'package:meus_gols_app/infra/repository/match_repository_impl.dart';
+import 'package:meus_gols_app/utils/date_utils.dart';
+import 'package:provider/provider.dart';
 
 class MatchHistory extends StatefulWidget {
   const MatchHistory(
@@ -22,6 +26,7 @@ class _MatchHistoryState extends State<MatchHistory> {
   void initState() {
     // TODO: implement initState
     super.initState();
+       initializeDateFormatting();
     _matchUseCase = MatchUseCase(_matchRepository);
   }
 
@@ -31,27 +36,46 @@ class _MatchHistoryState extends State<MatchHistory> {
         ? ListView.builder(
             itemCount: widget.matchesList.length,
             itemBuilder: (BuildContext context, int index) {
-              bool isDeleted;
-              return Card(
-                child: ListTile(
-                  leading: const Icon(Icons.sports_soccer_sharp, size: 40),
-                  title: Text(widget.matchesList[index].fut_description),
-                  subtitle: Text(widget.matchesList[index].match_date),
-                  trailing: Text(
-                      widget.matchesList[index].goals_amount.toString(),
-                      style: const TextStyle(fontSize: 40)),
-                  onLongPress: () => {
-                    _matchUseCase
-                        .deleteMatch(widget.matchesList[index].id!)
-                        .then((value) => {
-                              if (value)
-                                {
-                                  showCustomSnackbar(
-                                      context, 'Partida deletada com sucesso!'),
-                                  widget.getAllMatchs()
-                                }
-                            }),
-                  },
+              return Dismissible(
+                confirmDismiss: (direction) async {
+                return showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text("Deseja mesmo deletar esta partida?"),
+              ),
+            );
+          },
+        );
+                },
+                background: Container(
+                  width: 10,
+                  color: Colors.red,
+                  child: Icon(Icons.delete),
+                ),
+                onDismissed: (direction) => _matchUseCase
+                    .deleteMatch(widget.matchesList[index].id!)
+                    .then((value) => {
+                          if (value)
+                            {
+                              showCustomSnackbar(
+                                  context, 'Partida deletada com sucesso!'),
+                              widget.getAllMatchs(),
+                              context.read<MatchProvider>().changeGoalsValue()
+                            }
+                        }),
+                key: ValueKey<int>(widget.matchesList[index].id!),
+                child: Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.sports_soccer_sharp, size: 40),
+                    title: Text(widget.matchesList[index].fut_description),
+                    subtitle: Text(DatesUtils.formatDate(widget.matchesList[index].match_date)),
+                    trailing: Text(
+                        widget.matchesList[index].goals_amount.toString(),
+                        style: const TextStyle(fontSize: 40)),
+                  ),
                 ),
               );
             })
