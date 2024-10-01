@@ -1,5 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!-- Permissões de armazenamento -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRI"/>
+
     <application
+        android:requestLegacyExternalStorage="true"
         android:label="Meus Gols"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
