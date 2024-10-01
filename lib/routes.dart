@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meus_gols_app/ui/screens/add_match.dart';
+import 'package:meus_gols_app/ui/screens/get_db.dart';
 import 'package:meus_gols_app/ui/screens/goals.dart';
 import 'package:meus_gols_app/ui/screens/matches_screen.dart';
 
@@ -28,6 +29,13 @@ class Routes extends StatelessWidget {
             path: 'add_match',
             builder: (BuildContext context, GoRouterState state) {
               return const AddMatch();
+            },
+          ),
+           GoRoute(
+            name: 'Get db',
+            path: 'get_db',
+            builder: (BuildContext context, GoRouterState state) {
+              return BackupDatabase();
             },
           ),
         ],

@@ -38,8 +38,16 @@ class _MatchesScreenState extends State<MatchesScreen> {
       theme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(title: Text("Histórico de jogos")),
-        body: MatchHistory(matchesList: matches.reversed.toList(), getAllMatchs: getAllHistory)
+        body: MatchHistory(matchesList: sortMatchesByDate(matches).reversed.toList(), getAllMatchs: getAllHistory)
       ),
     );
   }
+
+  List<MatchSoccer> sortMatchesByDate(List<MatchSoccer> matches) {
+  return matches..sort((a, b) {
+    DateTime dataA = DateTime.parse(a.match_date);
+    DateTime dataB = DateTime.parse(b.match_date);
+    return dataA.compareTo(dataB);
+  });
+}
 }

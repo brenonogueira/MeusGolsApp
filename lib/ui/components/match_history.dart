@@ -26,7 +26,7 @@ class _MatchHistoryState extends State<MatchHistory> {
   void initState() {
     // TODO: implement initState
     super.initState();
-       initializeDateFormatting();
+    initializeDateFormatting();
     _matchUseCase = MatchUseCase(_matchRepository);
   }
 
@@ -38,17 +38,17 @@ class _MatchHistoryState extends State<MatchHistory> {
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
                 confirmDismiss: (direction) async {
-                return showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
-              child: ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text("Deseja mesmo deletar esta partida?"),
-              ),
-            );
-          },
-        );
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text("Deseja mesmo deletar esta partida?"),
+                        ),
+                      );
+                    },
+                  );
                 },
                 background: Container(
                   width: 10,
@@ -71,7 +71,8 @@ class _MatchHistoryState extends State<MatchHistory> {
                   child: ListTile(
                     leading: const Icon(Icons.sports_soccer_sharp, size: 40),
                     title: Text(widget.matchesList[index].fut_description),
-                    subtitle: Text(DatesUtils.formatDate(widget.matchesList[index].match_date)),
+                    subtitle: Text(DatesUtils.formatDate(
+                        widget.matchesList[index].match_date)),
                     trailing: Text(
                         widget.matchesList[index].goals_amount.toString(),
                         style: const TextStyle(fontSize: 40)),

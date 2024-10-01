@@ -2,6 +2,13 @@ import 'package:intl/intl.dart';
 
 class DatesUtils {
   static String formatDate(String date) {
+
+    if (date.isEmpty) {
+      DateTime dateNow = DateTime.now();
+      DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
+      return dateFormat.format(dateNow);
+    }
+
     List<String> dateSplit = date.split('-');
 
     if (dateSplit.length != 3) {
