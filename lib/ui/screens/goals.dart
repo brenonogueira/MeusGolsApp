@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/provider_service/match_provider.dart';
-import 'package:meus_gols_app/data/usecases/match_use_case.dart';
-import 'package:meus_gols_app/infra/repository/match_repository_impl.dart';
 import 'package:meus_gols_app/ui/components/total_goals.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +50,13 @@ class _GoalsState extends State<Goals> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TotalGoals(goals: goals),
+                  StatsPlayer(data: context.watch<MatchProvider>().goals, label: "goals", fontSize: 70),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                   StatsPlayer(data: context.watch<MatchProvider>().assists, label: "assists", fontSize: 30),
                 ],
               ),
               Row(

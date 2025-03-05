@@ -1,0 +1,2 @@
+C:/Users/breno/Documents/development/flutter/meus_gols_app/android/app/.cxx/Debug/3h50224i/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/breno/Documents/development/flutter/meus_gols_app/android/app/.cxx/Debug/3h50224i/x86_64/CMakeFiles/rebuild_cache.dir

@@ -1,31 +1,18 @@
-class MatchSoccer {
-  int? id;
-  String fut_description;
-  int goals_amount;
-  String match_date;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  MatchSoccer({
-    this.id,
-    required this.fut_description,
-    required this.goals_amount,
-    required this.match_date
-  });
+part 'match_soccer.freezed.dart';
+part 'match_soccer.g.dart';
 
-  factory MatchSoccer.fromJson(Map<String, dynamic> json) {
-    return MatchSoccer(
-      id: json['id'],
-      fut_description: json['fut_description'],
-      goals_amount: json['goals_amount'],
-      match_date: json['match_date']
-    );
-  }
+@freezed
+abstract class MatchSoccer with _$MatchSoccer {
+  const factory MatchSoccer({
+    int? id,
+    required String fut_description,
+    required int goals_amount,
+    required int assists_amount,
+    required String match_date,
+  }) = _MatchSoccer;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'fut_description': fut_description,
-      'goals_amount': goals_amount,
-      'match_date': match_date
-    };
-  }
+  factory MatchSoccer.fromJson(Map<String, dynamic> json) => _$MatchSoccerFromJson(json);
+
 }

@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class MatchRepositoryImpl implements MatchRepository {
-  late final Database _database;
 
   Future<Database> initDB() async {
     String path = await getDatabasesPath();
@@ -16,6 +15,7 @@ class MatchRepositoryImpl implements MatchRepository {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         fut_description TEXT NOT NULL,
         goals_amount INTEGER NOT NULL,
+        assists_amount INTEGER NOT NULL,
         match_date TEXT NOT NULL
       )
     ''');
@@ -31,26 +31,22 @@ class MatchRepositoryImpl implements MatchRepository {
       await db.insert("matches", matchSoccer.toJson());
       return true;
     } catch (e) {
-      print("Erro ao inserir o jogo: $e");
-      return false; // Retorna false se ocorrer um erro ao inserir
+      return false;
     }
   }
 
   @override
   Future<List<MatchSoccer>> findAll() async {
-    // Get a reference to the database.
     final db = await initDB();
-
-    // Query the table for all The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query('matches');
-
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    return List.generate(maps.length, (i) {
+    final List<Map<String, dynamic>> matchsDb = await db.query('matches');
+    
+    return List.generate(matchsDb.length, (i) {
       return MatchSoccer(
-          id: maps[i]['id'],
-          fut_description: maps[i]['fut_description'],
-          goals_amount: maps[i]['goals_amount'],
-          match_date: maps[i]['match_date']);
+          id: matchsDb[i]['id'],
+          fut_description: matchsDb[i]['fut_description'],
+          goals_amount: matchsDb[i]['goals_amount'],
+          assists_amount: matchsDb[i]['assists_amount'],
+          match_date: matchsDb[i]['match_date']);
     });
   }
 
@@ -66,7 +62,15 @@ class MatchRepositoryImpl implements MatchRepository {
     final db = await initDB();
     final result = await db.rawQuery('SELECT SUM(goals_amount) FROM matches');
     int? sum = Sqflite.firstIntValue(result);
-    return sum ?? 0; // Return 0 if there are no goals or an error occurs
+    return sum ?? 0;
+  }
+
+   @override
+     Future<int?> countAssists() async {
+    final db = await initDB();
+    final result = await db.rawQuery('SELECT SUM(assists_amount) FROM matches');
+    int? sum = Sqflite.firstIntValue(result);
+    return sum ?? 0;
   }
 
   @override
@@ -76,7 +80,6 @@ class MatchRepositoryImpl implements MatchRepository {
        await db.delete('matches', where: 'id = ?', whereArgs: [id]);
       return true;
      } catch (e) {
-       print(e);
        return false;
      }
   }

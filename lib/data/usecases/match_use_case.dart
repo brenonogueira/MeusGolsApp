@@ -19,6 +19,10 @@ class MatchUseCase {
       return await _matchRepository.countGoals();     
    }
 
+   Future<int?> countAssists() async {
+      return await _matchRepository.countAssists();     
+   }
+
   Future<bool> deleteMatch(int id) async {
       return await _matchRepository.deleteMatchById(id);     
    }

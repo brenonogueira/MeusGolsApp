@@ -8,7 +8,6 @@ import 'package:meus_gols_app/ui/screens/matches_screen.dart';
 class Routes extends StatelessWidget {
   Routes({super.key});
 
-  /// The route configuration.
   final GoRouter _router = GoRouter(
     routes: <RouteBase>[
       GoRoute(

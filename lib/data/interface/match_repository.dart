@@ -6,4 +6,5 @@ abstract class MatchRepository {
   Future<void> updateMatch(MatchSoccer match, int id);
   Future<bool> deleteMatchById(int id);
   Future<int?> countGoals();
+  Future<int?> countAssists();
 }
