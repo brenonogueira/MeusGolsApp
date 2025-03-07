@@ -50,13 +50,13 @@ class _GoalsState extends State<Goals> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  StatsPlayer(data: context.watch<MatchProvider>().goals, label: "goals", fontSize: 70),
+                  StatsPlayer(data: context.watch<MatchProvider>().goals, label: "gols", fontSize: 70),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   StatsPlayer(data: context.watch<MatchProvider>().assists, label: "assists", fontSize: 30),
+                   StatsPlayer(data: context.watch<MatchProvider>().assists, label: "assistências", fontSize: 30),
                 ],
               ),
               Row(
@@ -66,14 +66,14 @@ class _GoalsState extends State<Goals> {
                     padding: EdgeInsets.all(13.0),
                     child: ElevatedButton(
                        onPressed: () => context.go('/add_match'),
-                      child: Text('Add match'),
+                      child: Text('Adicionar partida'),
                     ),
                   ),
                    Padding(
                     padding: EdgeInsets.all(13.0),
                     child: ElevatedButton(
                       onPressed: () => context.go('/matches'),
-                      child: Text('Matches'),
+                      child: Text('Partidas'),
                     ),
                   ),
                 ],

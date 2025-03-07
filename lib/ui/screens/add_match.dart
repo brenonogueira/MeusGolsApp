@@ -39,70 +39,63 @@ class _AddMatchState extends State<AddMatch> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: Scaffold(
-        appBar: AppBar(title: Text("Add match")),
-        body: Form(
-          key: formKey,
-          child: ListView(
-            padding: EdgeInsets.all(16),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _controller_fut_description,
-                  decoration: InputDecoration(
-                    labelText: 'Fut',
-                    border: OutlineInputBorder(),
-                  ),
+    return Scaffold(
+      appBar: AppBar(title: Text("Adicionar partida")),
+      body: Form(
+        key: formKey,
+        child: ListView(
+          padding: EdgeInsets.all(16),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _controller_fut_description,
+                decoration: InputDecoration(
+                  labelText: 'Descrição',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _controller_goals,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Goals',
-                    border: OutlineInputBorder(),
-                  ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _controller_goals,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Gols',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _controller_assists,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Assists',
-                    border: OutlineInputBorder(),
-                  ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _controller_assists,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Assistências',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _controller_data_fut,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.calendar_month),
-                    labelText: 'Data do fut',
-                    border: OutlineInputBorder(),
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate();
-                  },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _controller_data_fut,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.calendar_month),
+                  labelText: 'Data do fut',
+                  border: OutlineInputBorder(),
                 ),
+                readOnly: true,
+                onTap: () {
+                  _selectDate();
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: buttonSubmit(),
-              ),
-            ],
-          ),
+            ),
+            Padding(padding: const EdgeInsets.all(8.0), child: buttonSubmit()),
+          ],
         ),
       ),
     );
@@ -111,7 +104,7 @@ class _AddMatchState extends State<AddMatch> {
   Widget buttonSubmit() => Builder(
     builder:
         (context) => ButtonWidget(
-          text: "Add",
+          text: "Adicionar",
           onClicked: () {
             try {
               if (_controller_data_fut.text.isNotEmpty) {

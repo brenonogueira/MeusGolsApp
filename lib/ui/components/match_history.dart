@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/models/match_soccer.dart';
@@ -24,7 +25,6 @@ class _MatchHistoryState extends State<MatchHistory> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initializeDateFormatting();
     _matchUseCase = MatchUseCase(_matchRepository);
@@ -69,6 +69,9 @@ class _MatchHistoryState extends State<MatchHistory> {
                 key: ValueKey<int>(widget.matchesList[index].id!),
                 child: Card(
                   child: ListTile(
+                    onTap: () {
+                      context.go("/match_info/${widget.matchesList[index].id!}");
+                    },
                     leading: const Icon(Icons.sports_soccer_sharp, size: 40),
                     title: Text(widget.matchesList[index].fut_description),
                     subtitle: Text(DatesUtils.formatDate(

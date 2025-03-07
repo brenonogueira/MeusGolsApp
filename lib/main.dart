@@ -9,15 +9,25 @@ import 'data/provider_service/match_provider.dart';
 
 void main() {
   Intl.defaultLocale = 'pt_BR';
-  
+
   runApp(
- MultiProvider(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => MatchProvider(MatchUseCase(MatchRepositoryImpl())),
         ),
       ],
-      child: Routes(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(color: Colors.white),
+            bodyMedium: TextStyle(color: Colors.white),
+            bodySmall: TextStyle(color: Colors.white),
+          ),
+        ),
+        routerConfig: router,
+      ),
     ),
   );
 }

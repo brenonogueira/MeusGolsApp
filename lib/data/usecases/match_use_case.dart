@@ -26,4 +26,8 @@ class MatchUseCase {
   Future<bool> deleteMatch(int id) async {
       return await _matchRepository.deleteMatchById(id);     
    }
+
+   Future<MatchSoccer?> findMatchInfoById(int id) async {
+      return await _matchRepository.findMatchById(id);     
+   }
 }

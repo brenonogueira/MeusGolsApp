@@ -3,12 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:meus_gols_app/ui/screens/add_match.dart';
 import 'package:meus_gols_app/ui/screens/get_db.dart';
 import 'package:meus_gols_app/ui/screens/goals.dart';
+import 'package:meus_gols_app/ui/screens/match_info.dart';
 import 'package:meus_gols_app/ui/screens/matches_screen.dart';
 
-class Routes extends StatelessWidget {
-  Routes({super.key});
-
-  final GoRouter _router = GoRouter(
+  final GoRouter router = GoRouter(
     routes: <RouteBase>[
       GoRoute(
         path: '/',
@@ -37,15 +35,15 @@ class Routes extends StatelessWidget {
               return BackupDatabase();
             },
           ),
+          GoRoute(
+            name: 'Match Info',
+            path: '/match_info/:id',
+            builder: (BuildContext context, GoRouterState state) {
+              final id = state.pathParameters['id'];
+              return MatchInfo(id: id);
+            },
+          ),
         ],
       ),
     ],
   );
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
-    );
-  }
-}
