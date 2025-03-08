@@ -17,40 +17,40 @@ class AddMatch extends StatefulWidget {
 
 class _AddMatchState extends State<AddMatch> {
   final formKey = GlobalKey<FormState>();
-  String fut_description = '';
+  String futDescription = '';
   int goals = 0;
-  String data_fut = '';
+  String dateFut = '';
 
   final MatchRepository _matchRepository = MatchRepositoryImpl();
   late final MatchUseCase _matchUseCase;
 
-  TextEditingController _controller_fut_description = TextEditingController();
-  TextEditingController _controller_goals = TextEditingController();
-  TextEditingController _controller_assists = TextEditingController();
-  TextEditingController _controller_data_fut = TextEditingController();
+  final TextEditingController futDescriptionTextEditingController = TextEditingController();
+  TextEditingController goalsTextEditingController = TextEditingController();
+  TextEditingController assistsTextEditingController = TextEditingController();
+  TextEditingController dateTextEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _controller_assists.text = "0";
-    _controller_goals.text = "0";
+    assistsTextEditingController.text = "0";
+    goalsTextEditingController.text = "0";
     _matchUseCase = MatchUseCase(_matchRepository);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Adicionar partida")),
+      appBar: AppBar(title: const Text("Adicionar partida")),
       body: Form(
         key: formKey,
         child: ListView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: _controller_fut_description,
-                decoration: InputDecoration(
+                controller: futDescriptionTextEditingController,
+                decoration: const InputDecoration(
                   labelText: 'Descrição',
                   border: OutlineInputBorder(),
                 ),
@@ -59,9 +59,9 @@ class _AddMatchState extends State<AddMatch> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: _controller_goals,
+                controller: goalsTextEditingController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Gols',
                   border: OutlineInputBorder(),
                 ),
@@ -70,9 +70,9 @@ class _AddMatchState extends State<AddMatch> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: _controller_assists,
+                controller: assistsTextEditingController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Assistências',
                   border: OutlineInputBorder(),
                 ),
@@ -81,9 +81,9 @@ class _AddMatchState extends State<AddMatch> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: _controller_data_fut,
+                controller: dateTextEditingController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.calendar_month),
                   labelText: 'Data do fut',
                   border: OutlineInputBorder(),
@@ -107,14 +107,14 @@ class _AddMatchState extends State<AddMatch> {
           text: "Adicionar",
           onClicked: () {
             try {
-              if (_controller_data_fut.text.isNotEmpty) {
+              if (dateTextEditingController.text.isNotEmpty) {
                 _matchUseCase
                     .saveMatch(
                       MatchSoccer(
-                        fut_description: _controller_fut_description.text,
-                        goals_amount: int.parse(_controller_goals.text),
-                        assists_amount: int.parse(_controller_assists.text),
-                        match_date: _controller_data_fut.text,
+                        fut_description: futDescriptionTextEditingController.text,
+                        goals_amount: int.parse(goalsTextEditingController.text),
+                        assists_amount: int.parse(assistsTextEditingController.text),
+                        match_date: dateTextEditingController.text,
                       ),
                     )
                     .then(
@@ -141,16 +141,16 @@ class _AddMatchState extends State<AddMatch> {
   );
 
   Future<void> _selectDate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
 
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        _controller_data_fut.text = _picked.toString().split(" ")[0];
+        dateTextEditingController.text = picked.toString().split(" ")[0];
       });
     }
   }
@@ -163,7 +163,7 @@ class _AddMatchState extends State<AddMatch> {
     final snackBar = SnackBar(
       backgroundColor: isSuccess ? Colors.green : Colors.red,
       content: Text(message),
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

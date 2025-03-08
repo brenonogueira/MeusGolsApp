@@ -33,21 +33,22 @@ class _MatchesScreenState extends State<MatchesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: Scaffold(
-        appBar: AppBar(title: Text("Histórico de jogos")),
-        body: MatchHistory(matchesList: sortMatchesByDate(matches).reversed.toList(), getAllMatchs: getAllHistory)
+    return Scaffold(
+      appBar: AppBar(title: const Text("Partidas")),
+      body: SafeArea(
+        child: MatchHistory(
+          matchesList: sortMatchesByDate(matches).reversed.toList(),
+          getAllMatchs: getAllHistory,
+        ),
       ),
     );
   }
 
   List<MatchSoccer> sortMatchesByDate(List<MatchSoccer> matches) {
-  return matches..sort((a, b) {
-    DateTime dataA = DateTime.parse(a.match_date);
-    DateTime dataB = DateTime.parse(b.match_date);
-    return dataA.compareTo(dataB);
-  });
-}
+    return matches..sort((a, b) {
+      DateTime dataA = DateTime.parse(a.match_date);
+      DateTime dataB = DateTime.parse(b.match_date);
+      return dataA.compareTo(dataB);
+    });
+  }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/typography/gf_typography.dart';
-import 'package:getwidget/types/gf_typography_type.dart';
 import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/models/match_soccer.dart';
 import 'package:meus_gols_app/data/usecases/match_use_case.dart';
 import 'package:meus_gols_app/infra/repository/match_repository_impl.dart';
+import 'package:meus_gols_app/ui/components/match_info_typography.dart';
+import 'package:meus_gols_app/utils/date_utils.dart';
 
 class MatchInfo extends StatefulWidget {
   const MatchInfo({super.key, required this.id});
@@ -47,44 +47,30 @@ class _MatchInfoState extends State<MatchInfo> {
               } else if (!snapshot.hasData || snapshot.data == null) {
                 return const Text("Nenhuma informação disponível");
               }
-          
+
               final matchInfo = snapshot.data!;
-          
+
               return SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                      Center(
-                      child: GFTypography(
-                          dividerColor: Colors.lightGreenAccent,
-                        text: "${matchInfo?.goals_amount.toString()} gols" ?? "Sem descrição",
-                        textColor: Colors.white,
-                        type: GFTypographyType.typo1,
-                        icon: const Icon(Icons.sports_soccer),
-                        
-                      ),
+                    MatchInfoTypography(
+                      matchInfo: matchInfo.fut_description,
+                      icon: Icons.description,
                     ),
-                     Center(
-                      child: GFTypography(
-                          dividerColor: Colors.lightGreenAccent,
-                        text: "${matchInfo?.assists_amount.toString()} assistências" ?? "Sem descrição",
-                         textColor: Colors.white,
-                        type: GFTypographyType.typo1,
-                        icon: const Icon(Icons.group),
-                        
-                      ),
+                    MatchInfoTypography(
+                      matchInfo: "${matchInfo.goals_amount.toString()} gols",
+                      icon: Icons.sports_soccer,
                     ),
-
-                     Center(
-                      child: GFTypography(
-                        dividerColor: Colors.lightGreenAccent,
-                        text: "${matchInfo?.match_date.toString()}" ?? "00/00/2000",
-                         textColor: Colors.white,
-                        type: GFTypographyType.typo1,
-                        icon: const Icon(Icons.date_range_rounded),
-                        
-                      ),
+                    MatchInfoTypography(
+                      matchInfo:
+                          "${matchInfo.assists_amount.toString()} assistências",
+                      icon: Icons.group,
+                    ),
+                    MatchInfoTypography(
+                      matchInfo: DatesUtils.formatDate(matchInfo.match_date),
+                      icon: Icons.date_range_rounded,
                     ),
                   ],
                 ),

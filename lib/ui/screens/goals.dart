@@ -12,14 +12,13 @@ class Goals extends StatefulWidget {
 }
 
 class _GoalsState extends State<Goals> {
-  
- final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   int? goals;
 
-@override
+  @override
   void initState() {
     super.initState();
-     context.read<MatchProvider>().changeGoalsValue();
+    context.read<MatchProvider>().changeGoalsValue();
   }
 
   @override
@@ -30,56 +29,81 @@ class _GoalsState extends State<Goals> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Meus gols'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Meus gols'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {
+                print("printou");
+              },
+              child: const Icon(Icons.calendar_month),
+            ),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.greenAccent,
+        foregroundColor: Colors.black,
+        onPressed: () {
+          context.push('/add_match');
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.sports_soccer_outlined, size: 150, color: Colors.greenAccent,),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  StatsPlayer(data: context.watch<MatchProvider>().goals, label: "gols", fontSize: 70),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   StatsPlayer(data: context.watch<MatchProvider>().assists, label: "assistências", fontSize: 30),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   Padding(
-                    padding: EdgeInsets.all(13.0),
-                    child: ElevatedButton(
-                       onPressed: () => context.go('/add_match'),
-                      child: Text('Adicionar partida'),
-                    ),
-                  ),
-                   Padding(
-                    padding: EdgeInsets.all(13.0),
-                    child: ElevatedButton(
-                      onPressed: () => context.go('/matches'),
-                      child: Text('Partidas'),
-                    ),
-                  ),
-                ],
+              Icon(
+                Icons.sports_soccer_outlined,
+                size: 150,
+                color: Colors.greenAccent,
               ),
             ],
-          )),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              StatsPlayer(
+                data: context.watch<MatchProvider>().goals,
+                label: "gols",
+                fontSize: 70,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              StatsPlayer(
+                data: context.watch<MatchProvider>().assists,
+                label: "assistências",
+                fontSize: 30,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.greenAccent,
+                    foregroundColor: Colors.black,
+                  ),
+                  onPressed: () => context.push('/matches'),
+                  child: const Text('Partidas'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

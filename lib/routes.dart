@@ -37,7 +37,7 @@ import 'package:meus_gols_app/ui/screens/matches_screen.dart';
           ),
           GoRoute(
             name: 'Match Info',
-            path: '/match_info/:id',
+            path: 'match_info/:id',
             builder: (BuildContext context, GoRouterState state) {
               final id = state.pathParameters['id'];
               return MatchInfo(id: id);

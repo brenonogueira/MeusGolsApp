@@ -1,7 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:meus_gols_app/data/provider_service/match_provider.dart';
-import 'package:provider/provider.dart';
 
 class StatsPlayer extends StatefulWidget {
   const StatsPlayer({super.key, required this.data, this.label, this.fontSize});
