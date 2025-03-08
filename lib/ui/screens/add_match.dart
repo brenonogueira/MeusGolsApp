@@ -107,7 +107,7 @@ class _AddMatchState extends State<AddMatch> {
           text: "Adicionar",
           onClicked: () {
             try {
-              if (dateTextEditingController.text.isNotEmpty) {
+              if (dateTextEditingController.text.isNotEmpty && futDescriptionTextEditingController.text.isNotEmpty) {
                 _matchUseCase
                     .saveMatch(
                       MatchSoccer(
@@ -128,6 +128,12 @@ class _AddMatchState extends State<AddMatch> {
                         context.go('/matches'),
                       },
                     );
+              } else {
+                 showCustomSnackbar(
+                context,
+                'Preencha todos os campos',
+                false,
+              );
               }
             } catch (e) {
               showCustomSnackbar(
