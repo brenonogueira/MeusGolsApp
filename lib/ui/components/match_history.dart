@@ -33,6 +33,14 @@ class _MatchHistoryState extends State<MatchHistory> {
     _matchUseCase = MatchUseCase(_matchRepository);
   }
 
+  void _navigateToMatchInfo(String matchId) async {
+    final bool? result = await context.push<bool>("/match_info/$matchId");
+
+    if (result == true) {
+      widget.getAllMatchs();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return widget.matchesList.isNotEmpty
@@ -78,7 +86,9 @@ class _MatchHistoryState extends State<MatchHistory> {
               child: Card(
                 child: ListTile(
                   onTap: () {
-                    context.push("/match_info/${widget.matchesList[index].id!}");
+                    _navigateToMatchInfo(
+                      widget.matchesList[index].id!.toString(),
+                    );
                   },
                   leading: const Icon(Icons.sports_soccer_sharp, size: 40),
                   title: Text(widget.matchesList[index].fut_description),

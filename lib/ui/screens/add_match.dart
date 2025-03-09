@@ -24,7 +24,7 @@ class _AddMatchState extends State<AddMatch> {
   final MatchRepository _matchRepository = MatchRepositoryImpl();
   late final MatchUseCase _matchUseCase;
 
-  final TextEditingController futDescriptionTextEditingController = TextEditingController();
+  TextEditingController futDescriptionTextEditingController = TextEditingController();
   TextEditingController goalsTextEditingController = TextEditingController();
   TextEditingController assistsTextEditingController = TextEditingController();
   TextEditingController dateTextEditingController = TextEditingController();

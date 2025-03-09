@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meus_gols_app/data/interface/match_repository.dart';
 import 'package:meus_gols_app/data/models/match_soccer.dart';
 import 'package:meus_gols_app/data/usecases/match_use_case.dart';
 import 'package:meus_gols_app/infra/repository/match_repository_impl.dart';
+import 'package:meus_gols_app/ui/components/edit_match_dialog.dart';
 import 'package:meus_gols_app/ui/components/match_info_typography.dart';
 import 'package:meus_gols_app/utils/date_utils.dart';
 
@@ -17,66 +19,94 @@ class MatchInfo extends StatefulWidget {
 class _MatchInfoState extends State<MatchInfo> {
   final MatchRepository _matchRepository = MatchRepositoryImpl();
   late final MatchUseCase _matchUseCase;
-  late Future<MatchSoccer?> _matchFuture;
+  MatchSoccer? matchInfoData;
+  bool isLoading = true;
+   bool hasEdited = false; 
 
   @override
   void initState() {
     super.initState();
     _matchUseCase = MatchUseCase(_matchRepository);
-    _matchFuture = _getMatchInfo();
+    _loadMatchData();
   }
 
-  Future<MatchSoccer?> _getMatchInfo() async {
-    return await _matchUseCase.findMatchInfoById(int.parse(widget.id!));
+  void _loadMatchData() async {
+    final match = await _matchUseCase.findMatchInfoById(int.parse(widget.id!));
+    setState(() {
+      matchInfoData = match;
+      isLoading = false;
+      hasEdited = true;
+    });
+  }
+
+  void _onBackPressed() {
+    context.pop(hasEdited);
+  }
+
+  void _openEditDialog() async {
+    if (matchInfoData != null) {
+      await showDialog<MatchSoccer>(
+        context: context,
+        builder: (context) => EditMatchDialog(match: matchInfoData!),
+      ).then((updatedMatch) {
+        setState(() {
+          matchInfoData = updatedMatch;
+        });
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Detalhes da Partida")),
+      appBar: AppBar(
+        title: const Text("Detalhes da Partida"),
+         leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _onBackPressed,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: matchInfoData != null ? _openEditDialog : null,
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: FutureBuilder<MatchSoccer?>(
-            future: _matchFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return const Text("Erro ao carregar os dados");
-              } else if (!snapshot.hasData || snapshot.data == null) {
-                return const Text("Nenhuma informação disponível");
-              }
-
-              final matchInfo = snapshot.data!;
-
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MatchInfoTypography(
-                      matchInfo: matchInfo.fut_description,
-                      icon: Icons.description,
+          child:
+              isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : matchInfoData == null
+                  ? const Center(child: Text("Nenhuma informação disponível"))
+                  : SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        MatchInfoTypography(
+                          matchInfo: matchInfoData!.fut_description,
+                          icon: Icons.description,
+                        ),
+                        MatchInfoTypography(
+                          matchInfo: "${matchInfoData!.goals_amount} gols",
+                          icon: Icons.sports_soccer,
+                        ),
+                        MatchInfoTypography(
+                          matchInfo:
+                              "${matchInfoData!.assists_amount} assistências",
+                          icon: Icons.group,
+                        ),
+                        MatchInfoTypography(
+                          matchInfo: DatesUtils.formatDate(
+                            matchInfoData!.match_date,
+                          ),
+                          icon: Icons.date_range_rounded,
+                        ),
+                      ],
                     ),
-                    MatchInfoTypography(
-                      matchInfo: "${matchInfo.goals_amount.toString()} gols",
-                      icon: Icons.sports_soccer,
-                    ),
-                    MatchInfoTypography(
-                      matchInfo:
-                          "${matchInfo.assists_amount.toString()} assistências",
-                      icon: Icons.group,
-                    ),
-                    MatchInfoTypography(
-                      matchInfo: DatesUtils.formatDate(matchInfo.match_date),
-                      icon: Icons.date_range_rounded,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
         ),
       ),
     );

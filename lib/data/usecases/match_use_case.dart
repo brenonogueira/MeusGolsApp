@@ -30,4 +30,8 @@ class MatchUseCase {
    Future<MatchSoccer?> findMatchInfoById(int id) async {
       return await _matchRepository.findMatchById(id);     
    }
+
+   Future<void> updateMatch(MatchSoccer matchSoccer, int id) async {
+    return await _matchRepository.updateMatch(matchSoccer, id);
+   }
 }
